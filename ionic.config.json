@@ -1,0 +1,7 @@
+{
+  "name": "FlexiWorkout",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
