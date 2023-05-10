@@ -18,3 +18,6 @@ import { FolderPage } from './folder.page';
   declarations: [FolderPage]
 })
 export class FolderPageModule {}
+/*
+*
+* */
