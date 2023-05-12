@@ -3,8 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 import {getAuth} from "@firebase/auth";
-import {initializeApp} from "firebase/app";
-import {firestore} from "firebase";
+import {initializeApp} from "@firebase/app";
+//import {Firestore} from "firebase";
+import { Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyClH2sZTY1ZOmXcgCK67fMfBwo7KOMEahs",
@@ -16,8 +17,8 @@ const firebaseConfig = {
   measurementId: "G-3RVPWCPL4J"
 };
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseAuth = getAuth(firebaseApp);
-const firebaseDB = firestore.Firestore;
+export const firebaseAuth = getAuth(firebaseApp);
+const firebaseDB = Firestore;
 export const environment = {
   production: false,
   firebaseConfig: firebaseConfig,

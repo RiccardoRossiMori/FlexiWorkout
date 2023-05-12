@@ -12,11 +12,11 @@ import { getAnalytics } from "firebase/analytics";
 import {environment} from "../environments/environment";
 const app = initializeApp(environment.firebaseConfig);
 const analytics = getAnalytics(app);
-import { FormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, SignupPageModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, SignupPageModule ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

@@ -1,40 +1,28 @@
 import {Component} from '@angular/core';    // import component from angular core
-import {IonicPage} from "ionic";
-import {  NavController, NavParams} from '@ionic/angular';    // import IonicPage, Navcontroller, Navparams from ionic-angular
-import {getAuth, signInWithEmailAndPassword} from '@firebase/auth'  // import AngularFireAuth from angularfire2/auth
-import firebase from "firebase/compat";    // import AngularFireDatabase from angularfire2/database
-//import {User} from '../../models/user';    // import User from models/user
-//import {HomePage} from '../home/home';    // import HomePage from home/home
+import {NavController, NavParams} from '@ionic/angular';    // import IonicPage, Navcontroller, Navparams from ionic-angular
 import {AlertController} from '@ionic/angular';    // import AlertController from ionic-angular
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';    // import formbuilder, formgroup, validators from angular forms
 import {LoadingController} from '@ionic/angular';    // import loadingcontroller from ionic-angular
 import {ToastController} from '@ionic/angular';
-import firestore = firebase.firestore;
-import {environment} from "../../environments/environment";
-import User = firebase.User;
+import {EmailAuthProvider, createUserWithEmailAndPassword, UserCredential} from 'firebase/auth';
+import {FirebaseError} from 'firebase/app';
+import {firebaseAuth} from "../../environments/environment";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/database';
 
-@IonicPage()    // Ionic Page
 @Component({    // component
   selector: 'page-register',    // selector
-  templateUrl: 'register.html',    // templateUrl
+  templateUrl: './signup.page.html',    // templateUrl
 })
-export class RegisterPage {    // export class RegisterPage
-  private afAuth= environment.firebaseAuth;
-  private afDatabase= environment.firebaseDB;
-  user = {} as User;    // initialize user variable
+
+export class SignupPage {    // export class RegisterPage
   myForm: FormGroup;    // initialize myForm variable
   constructor(private toastCtrl: ToastController, public loadingCtrl: LoadingController, public formBuilder: FormBuilder,
-              private alertCtrl: AlertController, afAuth,afDatabase ,
-              public navCtrl: NavController, public navParams: NavParams) {    // constructor
+              private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {    // constructor
     this.myForm = this.formBuilder.group({    // initialize this.myForm with formbuilder
-      email: ['', Validators.required],    // set email as required
+      email: ['', Validators.required, Validators.email],    // set email as required
       password: ['', Validators.required],    // set password as required
       name: ['', Validators.required],    // set name as required
-      phone: [''],    // set phone as required
-      address: [''],    // set address as required
-      city: [''],    // set city as required
-      state: [''],    // set state as required
-      zip: [''],    // set zip as required
     });
   }
 
@@ -42,23 +30,32 @@ export class RegisterPage {    // export class RegisterPage
     console.log('ionViewDidLoad RegisterPage');    // print message on console
   }
 
-  async register(user: User) {    // async function register
+  async register(myForm: FormGroup) {    // async function register
     try {    // try block         // TODO risolvi errori e crea interfaccia grafica per login e signup
-      const result = await firebase.auth.EmailAuthProvider.credential(user.email,user.password) //this.afAuth.createUserWithEmailAndPassword(user.email, user.password);    // create user with email and password
+      const result = await EmailAuthProvider.credential(myForm.get('email')?.value, myForm.get('password')?.value); // create user with email and password
       if (result) {    // check if user created or not
-        this.afAuth.authState.take(1).subscribe(auth => {    // check auth state of user
-          this.afDatabase.object(`user/${auth.uid}`).set(this.user)
-            .then(() => this.navCtrl.setRoot(HomePage));    // set user data in firebase
-        })
+        createUserWithEmailAndPassword(firebaseAuth, myForm.get('email')?.value, myForm.get('password')?.value)
+          .then((userCredential: UserCredential) => {   // registrazione avvenuta con successo, si accede all'utente registrato
+            const user = userCredential.user;   // si memorizzano i dati dell'utente nel database
+            if (user != null && "uid" in user) {
+              const database = firebase.database();
+              const databaseRef = database.ref(`user/${user.uid}`);
+              databaseRef.set(myForm)
+                .then(() => {   // si è memorizzato con successo i dati dell'utente nel database, si naviga alla pagina principale
+                  this.navCtrl.navigateRoot('../folder/folder.module');
+                }).catch((error: FirebaseError) => {    // gestione degli errori
+              });
+            }
+          })
+          .catch((error: FirebaseError) => {    // gestione degli errori
+          });
       }
     } catch (e) {    // catch block
       console.error(e);    // print error on console
       let alert = this.alertCtrl.create({    // create alert
-        title: 'Error',    // title of alert
-        subTitle: e,    // subtitle of alert
         buttons: ['OK']    // button of alert
       });
-      alert.present();    // present alert
+      (await alert).present;    // present alert
     }
   }
 }
