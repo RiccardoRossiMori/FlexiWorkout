@@ -1,28 +1,22 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Register
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <form [formGroup]="myForm" (ngSubmit)="register(myForm)">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Name</ion-label>
-      <ion-input type="text" formControlName="name"></ion-input>
-    </ion-item>
-
-    <ion-button type="submit" [disabled]="!myForm.valid">Register</ion-button>
+<ion-text class="signup-box">
+  <form>
+    <div class="text-center">
+      <div class="user-box">
+        <input type="text" name="" required>
+        <label>Username</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="" required>
+        <label>Password</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="" required="">
+        <label>Confirm Password</label>
+      </div>
+      <a href="home">
+        SEND
+        <span></span>
+      </a>
+    </div>
   </form>
-</ion-content>
+</ion-text>

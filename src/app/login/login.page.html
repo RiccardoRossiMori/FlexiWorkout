@@ -1,17 +1,21 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">login</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-button> Effettua il login</ion-button>
-  <ion-footer>
-    Non sei registrato? <a href="../signup/signup.page.html">Registrati qui!</a>
-  </ion-footer>
-</ion-content>
+<ion-text class="login-box">
+  <form>
+    <div class="text-center">
+      <div class="user-box">
+        <input type="text" name="" required>
+        <label>Username</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="" required>
+        <label>Password</label>
+      </div>
+      <a href="home">
+        SEND
+        <span></span>
+      </a>
+    </div>
+  </form>
+  <ion-text color="medium">
+    Not registered yet? <a href="signup">Click here!</a>
+  </ion-text>
+</ion-text>
