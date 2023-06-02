@@ -1,15 +1,15 @@
 <ion-text class="login-box">
-  <form>
+  <form [formGroup]="form">
     <div class="text-center">
       <div class="user-box">
-        <input type="text" name="" required>
+        <input type="text" name="" formControlName="email" required>
         <label>Username</label>
       </div>
       <div class="user-box">
-        <input type="password" name="" required>
+        <input type="password" name="" formControlName="password" required>
         <label>Password</label>
       </div>
-      <a href="home">
+      <a (click)="login()">
         SEND
         <span></span>
       </a>
