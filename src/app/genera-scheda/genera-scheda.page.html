@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Genera_scheda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Genera_scheda</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list>
+<!--    i campi selezionati come default (vuoti) non devono essere presi dalla query, altrimenti da errore e non restituisce nulla-->
+    <ion-item>
+      <ion-textarea label="Nome esercizio" placeholder="Squat" [clearOnEdit]="true" #nomeEsercizioTextarea></ion-textarea>
+    </ion-item>
+      <ion-item>
+        <ion-select aria-label="Tipo-esercizio" interface="popover" placeholder="Seleziona tipologia" #tipoEsercizioSelect>
+          <ion-select-option value="">Default</ion-select-option>
+          <ion-select-option value="cardio">Cardio</ion-select-option>
+          <ion-select-option value="olympic_weightlifting">Olympic Weightlifting</ion-select-option>
+          <ion-select-option value="plyometrics">Plyometrics</ion-select-option>
+          <ion-select-option value="powerlifting">Powerlifting</ion-select-option>
+          <ion-select-option value="strength">Strength</ion-select-option>
+          <ion-select-option value="stretching">Stretching</ion-select-option>
+          <ion-select-option value="strongman">Strongman</ion-select-option>
+        </ion-select>
+      </ion-item>
+    <ion-item>
+      <ion-select aria-label="Muscolo" interface="popover" placeholder="Seleziona Muscolo" #muscoloSelect>
+        <ion-select-option value="">Default</ion-select-option>
+        <ion-select-option value="abdominals">Abdominals</ion-select-option>
+        <ion-select-option value="abductors">Abductors</ion-select-option>
+        <ion-select-option value="adductors">Adductors</ion-select-option>
+        <ion-select-option value="biceps">Biceps</ion-select-option>
+        <ion-select-option value="calves">Calves</ion-select-option>
+        <ion-select-option value="chest">Chest</ion-select-option>
+        <ion-select-option value="forearms">Forearms</ion-select-option>
+        <ion-select-option value="glutes">Glutes</ion-select-option>
+        <ion-select-option value="hamstrings">Hamstrings</ion-select-option>
+        <ion-select-option value="lats">Lats</ion-select-option>
+        <ion-select-option value="lower_back">Lower Back</ion-select-option>
+        <ion-select-option value="middle_back">Middle Back</ion-select-option>
+        <ion-select-option value="neck">Neck</ion-select-option>
+        <ion-select-option value="quadriceps">Quadriceps</ion-select-option>
+        <ion-select-option value="traps">Traps</ion-select-option>
+        <ion-select-option value="triceps">Triceps</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select aria-label="Difficoltà" interface="popover" placeholder="Seleziona Difficoltà" #difficoltaSelect>
+        <ion-select-option value="">Default</ion-select-option>
+        <ion-select-option value="beginner">Beginner</ion-select-option>
+        <ion-select-option value="intermediate">Intermediate</ion-select-option>
+        <ion-select-option value="expert">Expert</ion-select-option>
+      </ion-select>
+    </ion-item>
+    </ion-list>
+  <ion-button (click)="getFormValues()"> console per ora</ion-button>
+
+
+<!-- X-Api-Key: A0F5n9W16NwqpjnpV33SPA==y33iR3fpHu1TgPWm-->
+
+
+</ion-content>
