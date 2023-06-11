@@ -1,0 +1,18 @@
+ion-card {
+  display: block;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  max-width: 500px;
+}
+
+div::first-letter{
+  text-transform: uppercase;
+}
+
+ion-card-subtitle::first-letter{
+  text-transform: uppercase;
+}
+
+ion-card-subtitle{
+  font-size: 1.2em;
+}

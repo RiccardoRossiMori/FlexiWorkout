@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" xmlns="http://www.w3.org/1999/html">
   <ion-toolbar>
     <ion-title>Genera_scheda</ion-title>
   </ion-toolbar>
@@ -11,22 +11,24 @@
     </ion-toolbar>
   </ion-header>
   <ion-list>
-<!--    i campi selezionati come default (vuoti) non devono essere presi dalla query, altrimenti da errore e non restituisce nulla-->
+    <!--    i campi selezionati come default (vuoti) non devono essere presi dalla query, altrimenti da errore e non restituisce nulla-->
     <ion-item>
-      <ion-textarea label="Nome esercizio" placeholder="Squat" [clearOnEdit]="true" #nomeEsercizioTextarea></ion-textarea>
+      <ion-textarea label="Nome esercizio" placeholder="Squat" [clearOnEdit]="true"
+                    #nomeEsercizioTextarea></ion-textarea>
     </ion-item>
-      <ion-item>
-        <ion-select aria-label="Tipo-esercizio" interface="popover" placeholder="Seleziona tipologia" #tipoEsercizioSelect>
-          <ion-select-option value="">Default</ion-select-option>
-          <ion-select-option value="cardio">Cardio</ion-select-option>
-          <ion-select-option value="olympic_weightlifting">Olympic Weightlifting</ion-select-option>
-          <ion-select-option value="plyometrics">Plyometrics</ion-select-option>
-          <ion-select-option value="powerlifting">Powerlifting</ion-select-option>
-          <ion-select-option value="strength">Strength</ion-select-option>
-          <ion-select-option value="stretching">Stretching</ion-select-option>
-          <ion-select-option value="strongman">Strongman</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item>
+      <ion-select aria-label="Tipo-esercizio" interface="popover" placeholder="Seleziona tipologia"
+                  #tipoEsercizioSelect>
+        <ion-select-option value="">Default</ion-select-option>
+        <ion-select-option value="cardio">Cardio</ion-select-option>
+        <ion-select-option value="olympic_weightlifting">Olympic Weightlifting</ion-select-option>
+        <ion-select-option value="plyometrics">Plyometrics</ion-select-option>
+        <ion-select-option value="powerlifting">Powerlifting</ion-select-option>
+        <ion-select-option value="strength">Strength</ion-select-option>
+        <ion-select-option value="stretching">Stretching</ion-select-option>
+        <ion-select-option value="strongman">Strongman</ion-select-option>
+      </ion-select>
+    </ion-item>
     <ion-item>
       <ion-select aria-label="Muscolo" interface="popover" placeholder="Seleziona Muscolo" #muscoloSelect>
         <ion-select-option value="">Default</ion-select-option>
@@ -56,11 +58,24 @@
         <ion-select-option value="expert">Expert</ion-select-option>
       </ion-select>
     </ion-item>
-    </ion-list>
-  <ion-button (click)="getFormValues()"> console per ora</ion-button>
+  </ion-list>
+  <ion-button (click)="getAndPushApi()"> console per ora</ion-button>
+  <ion-card *ngFor="let esercizio of eserciziAPI">
+    <ion-card-header>
+      <ion-card-title>{{ esercizio.name }}</ion-card-title>
+      <ion-card-subtitle class="muscolo">{{ esercizio.muscle }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-checkbox color="warning">Aggiungi alla scheda</ion-checkbox><br><br>
+      <div class="istruzioni">{{ esercizio.instructions }}</div><br>
+      <div class="difficoltà">{{ esercizio.difficulty }}</div>
+      <div class="equipaggiamento">{{ esercizio.equipment }}</div>
+      <div class="tipo">{{ esercizio.type }}</div>
+    </ion-card-content>
+  </ion-card>
 
 
-<!-- X-Api-Key: A0F5n9W16NwqpjnpV33SPA==y33iR3fpHu1TgPWm-->
+  <!-- X-Api-Key: A0F5n9W16NwqpjnpV33SPA==y33iR3fpHu1TgPWm-->
 
 
 </ion-content>
