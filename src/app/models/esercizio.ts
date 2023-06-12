@@ -1,10 +1,7 @@
+import {EsercizioAPI} from "./esercizio-api";
+
 export class Esercizio {
-  difficolta: string='';
-  descrizione: string=''; //breve descrizione dell'esercizio
-  muscolo: string='';
-  nome: string='';
-  equipaggiamento: string=''; //equipaggiamento necessario
-  tipo: string=''; //ad esempio cardio, strongman etc.
+  exercise: EsercizioAPI = new EsercizioAPI();
   serie: number=0;
   ripetizioni: number=0;
   timer: number=0; //tempo di riposo
@@ -13,9 +10,16 @@ export class Esercizio {
   timerTabata: number=0; //tempo di esercizio attivo
 
   // Aggiungi altre proprietà necessarie
-/*
-{ difficulty: string; instructions: string; muscle: string; name: string; equipment: string; type: string }
- */
+
+  constructor(ex: EsercizioAPI, se:number, rep:number, time:number, weight:number, tab:boolean, ttab:number) {
+    this.exercise=ex;
+    this.serie=se;
+    this.ripetizioni=rep;
+    this.timer=time;
+    this.peso=weight;
+    this.tabata=tab;
+    this.timerTabata=ttab;
+  }
 
 }
 

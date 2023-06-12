@@ -2,10 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import {getAuth} from "@firebase/auth";
-import {initializeApp} from "@firebase/app";
 //import {Firestore} from "firebase";
-import { Firestore } from 'firebase/firestore';
 import {defaultEnvironment} from "./environment.default";
 
 //const firebaseApp = initializeApp(firebaseConfig);

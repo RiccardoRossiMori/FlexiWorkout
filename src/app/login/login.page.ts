@@ -21,6 +21,14 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("apertura pagina login");
+    this.authenticationService.isLoggedIn().subscribe((isLoggedIn: boolean) => {
+      if (isLoggedIn) {
+        // L'utente è già autenticato, reindirizza alla homepage
+        console.log("guarda lo stronzo che passa");
+        this.router.navigate(['/home']);
+      }
+    });
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]

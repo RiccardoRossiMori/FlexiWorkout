@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from "../pages/signin/services/authentication.service";
 import {getAuth} from "@firebase/auth";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ export class HomePage {
   public username: any;
   private auth1 = getAuth();
 
-  constructor(private auth: AuthenticationService) {
+
+  constructor(private auth: AuthenticationService, private router: Router) {
 
   }
 
@@ -28,10 +30,13 @@ export class HomePage {
     console.log("valore logged: " + this.auth.isLoggedIn());
     const currentUser = this.auth1.currentUser;
 
-    if (currentUser) {
-      // Ottieni il nome utente dell'utente corrente
-      this.username = currentUser.email;
-    }
+    // Recupera lo username dal servizio di autenticazione
+    this.username = this.auth.getUsername();
 
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['login']);
   }
 }
