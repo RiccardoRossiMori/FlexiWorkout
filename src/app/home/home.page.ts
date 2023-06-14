@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {AuthenticationService} from "../pages/signin/services/authentication.service";
-import {getAuth} from "@firebase/auth";
+import {UserService} from "../pages/signin/services/user.service";
+//import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import {Router} from "@angular/router";
+import {delay} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -9,11 +11,11 @@ import {Router} from "@angular/router";
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  public username: any;
-  private auth1 = getAuth();
+  username: string='';
+  //private auth1 = firebase.auth();
 
 
-  constructor(private auth: AuthenticationService, private router: Router) {
+  constructor(private userService: UserService, private router: Router) {
 
   }
 
@@ -27,16 +29,18 @@ export class HomePage {
      (per il controllo forse é meglio il 3-2-1 oppure un flag di nuovo utente, idky). */
 
   ngOnInit(): void {
-    console.log("valore logged: " + this.auth.isLoggedIn());
-    const currentUser = this.auth1.currentUser;
+    //const currentUser = this.auth1.currentUser;
 
     // Recupera lo username dal servizio di autenticazione
-    this.username = this.auth.getUsername();
+    this.userService.getUsername().subscribe(username => {
+      this.username = username;
+    });
 
   }
 
-  logout() {
-    this.auth.logout();
-    this.router.navigate(['login']);
+  async logout() {
+    // this.auth.logout();
+    await delay(1000);
+    await this.router.navigate(['login']);
   }
 }

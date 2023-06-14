@@ -7,13 +7,14 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import {environment} from "../environments/environment";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
-import {AngularFireModule} from "@angular/fire/compat";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {API_HTTP_CLIENT, ApiInterceptor} from "./api-interceptor.service";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
+import {AngularFireModule} from "@angular/fire/compat";
+import { environment } from '../environments/environment';
+import {UserService} from "./pages/signin/services/user.service";
 
 
 @NgModule({
@@ -21,13 +22,14 @@ import {CommonModule} from "@angular/common";
   imports: [BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     MatSnackBarModule,
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule],
   providers: [
+    UserService,
     {
       provide: RouteReuseStrategy, useClass: IonicRouteStrategy
     },

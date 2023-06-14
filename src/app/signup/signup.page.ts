@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../pages/signin/services/authentication.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MatSnackBar} from "@angular/material/snack-bar";
-
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import * as firebaseui from 'firebaseui';
 
 @Component({
   selector: 'app-signup',
@@ -14,19 +15,17 @@ export class SignupPage implements OnInit {
   form!: FormGroup;
 
   constructor(
-    private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    }, {validator: this.passwordMatchValidator});
+      confirmPassword: ['', Validators.required],
+    }, { validator: this.passwordMatchValidator });
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
@@ -37,17 +36,31 @@ export class SignupPage implements OnInit {
 
   signup() {
     if (this.passwordMatchValidator(this.form)) {
-      this.authenticationService.signup({
-        email: this.form.value.email,
-        password: this.form.value.password
-      }).subscribe({
-        next: () => this.router.navigate(['home']),
-        error: err => {
-          this.snackBar.open(err.message, "OK", {duration: 5000})
-        }
-      });
+      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+      const uiConfig = {
+        callbacks: {
+          signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
+            // L'utente ha effettuato la registrazione con successo
+            // Puoi eseguire le operazioni necessarie qui
+            this.router.navigate(['home']);
+            return false; // Blocca il reindirizzamento automatico
+          },
+          uiShown: () => {
+            // FirebaseUI è stato visualizzato
+            // Puoi eseguire le operazioni necessarie qui
+          }
+        },
+        signInOptions: [
+          // Aggiungi qui le opzioni di registrazione desiderate
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        ],
+        // Altre opzioni di configurazione di FirebaseUI per la registrazione
+      };
+
+      ui.start('#firebaseui-auth-container', uiConfig);
     } else {
-      this.snackBar.open("Immettere la stessa password due volte!", "OK", {duration: 5000})
+      this.snackBar.open('Immettere la stessa password due volte!', 'OK', { duration: 5000 });
     }
   }
 }

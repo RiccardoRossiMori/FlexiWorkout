@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 //import {Firestore} from "firebase";
-import {defaultEnvironment} from "./environment.default";
+import { defaultEnvironment } from "./environment.default";
+
 
 //const firebaseApp = initializeApp(firebaseConfig);
 //export const firebaseAuth = getAuth(firebaseApp);

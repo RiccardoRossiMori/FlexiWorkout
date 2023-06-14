@@ -1,21 +1,31 @@
-<ion-text class="signup-box">
-  <form [formGroup]="form">
-    <div class="text-center">
-      <div class="user-box">
-        <input type="text" name="" formControlName="email" required placeholder="Username">
-      </div>
-      <div class="user-box">
-        <input type="password" name="" formControlName="password" required placeholder="Password">
-      </div>
-      <div class="user-box">
-        <input type="password" name="" formControlName="confirmPassword" required="" placeholder="Confirm Password">
-      </div>
-      <a (click)="signup()">
-        SEND
-      </a>
-    </div>
-  </form>
+<ion-content>
+  <script type="text/javascript">
+    // FirebaseUI config.
+    var uiConfig = {
+      signInSuccessUrl: '<url-to-redirect-to-on-success>',
+      signInOptions: [
+        // Leave the lines as is for the providers you want to offer your users.
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ],
+      // tosUrl and privacyPolicyUrl accept either url string or a callback function.
+      // Terms of service url/callback.
+      // tosUrl: '<your-tos-url>',
+      // Privacy policy url/callback.
+      privacyPolicyUrl: function() {
+        // window.location.assign('<your-privacy-policy-url>');
+      }
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+  </script>
+
+  <!-- Form di registrazione -->
+  <div id="firebaseui-auth-container"></div>
   <ion-text color="medium">
     Already registered? <a href="login">Click here!</a>
   </ion-text>
-</ion-text>
+</ion-content>

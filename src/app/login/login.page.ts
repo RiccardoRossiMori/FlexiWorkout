@@ -1,49 +1,73 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {AuthenticationService} from "../pages/signin/services/authentication.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import firebase from 'firebase/compat/app';
+import * as firebaseui from 'firebaseui';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
-  form!: FormGroup;
+export class LoginPage implements AfterViewInit{
+  @ViewChild('firebaseuiAuthContainer', { static: false }) firebaseuiAuthContainer!: ElementRef;
 
-  constructor(
-    private authenticationService: AuthenticationService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) {
+  form: FormGroup;
+
+  constructor(private afAuth: AngularFireAuth) {
+    this.form = new FormGroup({
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
+    });
   }
 
-  ngOnInit(): void {
-    console.log("apertura pagina login");
-    this.authenticationService.isLoggedIn().subscribe((isLoggedIn: boolean) => {
-      if (isLoggedIn) {
-        // L'utente è già autenticato, reindirizza alla homepage
-        console.log("guarda lo stronzo che passa");
-        this.router.navigate(['/home']);
+  ngAfterViewInit() {
+    const uiConfig: firebaseui.auth.Config = {
+      signInSuccessUrl: '/home',
+      signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+      ],
+      callbacks: {
+        signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
+          // L'utente ha effettuato l'accesso con successo
+          // Puoi eseguire le operazioni necessarie qui
+          return false; // Blocca il reindirizzamento automatico
+        },
+        uiShown: () => {
+          // FirebaseUI è stato visualizzato
+          // Puoi eseguire le operazioni necessarie qui
+        }
       }
-    });
-    this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-    });
+    };
+
+    const ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start(this.firebaseuiAuthContainer.nativeElement, uiConfig);
   }
+
+
+
 
   login() {
-    this.authenticationService.login({
-      email: this.form.value.email,
-      password: this.form.value.password
-    }).subscribe({
-      next: () => this.router.navigate(['home']),
-      error: err => {
-        this.snackBar.open(err.message, "OK", {duration: 5000})
-      }
-    });
+    const ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    const uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
+          // L'utente ha effettuato l'accesso con successo
+          // Puoi eseguire le operazioni necessarie qui
+          return false; // Blocca il reindirizzamento automatico
+        },
+        uiShown: () => {
+          // FirebaseUI è stato visualizzato
+          // Puoi eseguire le operazioni necessarie qui
+        }
+      },
+      // Altre opzioni di configurazione di FirebaseUI
+    };
+
+    ui.start('#firebaseui-auth-container', uiConfig);
   }
+
 }
