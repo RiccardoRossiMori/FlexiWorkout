@@ -5,6 +5,16 @@ ion-card {
   max-width: 500px;
 }
 
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  background: var(--ion-color-medium-shade);
+}
+
+.button-container ion-button.ion-text-end {
+  margin-left: auto;
+}
+
 div::first-letter{
   text-transform: uppercase;
 }

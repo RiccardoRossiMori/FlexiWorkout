@@ -5,4 +5,5 @@ export class EsercizioAPI{
   name: string = '';
   equipment: string = '';
   type: string = '';
+  checked: boolean=false;
 }

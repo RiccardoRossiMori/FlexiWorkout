@@ -8,7 +8,7 @@ import {GeneraSchedaPageRoutingModule} from './genera-scheda-routing.module';
 
 import {GeneraSchedaPage} from './genera-scheda.page';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ApiInterceptor} from "../api-interceptor.service";
+//import {ApiInterceptor} from "../api-interceptor.service";
 
 @NgModule({
   imports: [
@@ -19,13 +19,13 @@ import {ApiInterceptor} from "../api-interceptor.service";
     GeneraSchedaPageRoutingModule,
   ],
   declarations: [GeneraSchedaPage],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true
-    }
-  ]
+  // providers: [
+  //   {
+  //     provide: HTTP_INTERCEPTORS,
+  //     useClass: ApiInterceptor,
+  //     multi: true
+  //   }
+  // ]
 })
 export class GeneraSchedaPageModule {
 }

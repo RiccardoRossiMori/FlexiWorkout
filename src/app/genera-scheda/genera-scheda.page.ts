@@ -1,8 +1,7 @@
 import {Component, NgIterable, ViewChild} from '@angular/core';
 import {IonSelect, IonTextarea} from '@ionic/angular';
 import {ApiService} from "../api.service";
-
-//import {HttpClient} from "@angular/common/http";
+import {EsercizioAPI} from "../models/esercizio-api";
 
 @Component({
   selector: 'app-genera-scheda',
@@ -14,9 +13,20 @@ export class GeneraSchedaPage {
   @ViewChild('tipoEsercizioSelect', {static: false}) tipoEsercizioSelect!: IonSelect;
   @ViewChild('muscoloSelect', {static: false}) muscoloSelect!: IonSelect;
   @ViewChild('difficoltaSelect', {static: false}) difficoltaSelect!: IonSelect;
-  eserciziAPI: NgIterable<any>='';
+  eserciziAPI: any[]=[];
+  isChecked: boolean = false;
+
 
   constructor( private api: ApiService) {
+  }
+
+  checkboxChanged() {
+    console.log("check chiamato e checked é "+ this.isChecked);
+    this.isChecked = this.eserciziAPI.some(esercizio => {
+      console.log("esercizio checkato? isChecked= "+esercizio.checked);
+      return esercizio.checked;
+    });
+    console.log("dopo check, il valore é "+this.isChecked);
   }
 
   getAndPushApi() {
@@ -32,5 +42,10 @@ export class GeneraSchedaPage {
     console.log(str);
     this.eserciziAPI = this.api.getExercises(str);
     console.log(this.eserciziAPI);
+  }
+
+  cambiaCheck(esercizio: EsercizioAPI) {
+    esercizio.checked=!esercizio.checked;
+    this.checkboxChanged();
   }
 }

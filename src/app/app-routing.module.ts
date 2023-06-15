@@ -9,10 +9,6 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
   },
   {
-    path: 'signup',
-    loadChildren: () => import('./signup/signup.module').then(m => m.SignupPageModule),
-  },
-  {
     path: '',
     canActivateChild: [AuthGuard],
     children: [
@@ -23,6 +19,10 @@ const routes: Routes = [
       {
         path: 'genera-scheda',
         loadChildren: () => import('./genera-scheda/genera-scheda.module').then(m => m.GeneraSchedaPageModule),
+      },
+      {
+        path: 'compila-scheda',
+        loadChildren: () => import('./compila-scheda/compila-scheda.module').then( m => m.CompilaSchedaPageModule)
       }
       //TODO: Aggiungi altre route per le diverse sezioni o pagine dell'applicazione
     ],
@@ -31,7 +31,8 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
-  },
+  }
+
 ];
 
 @NgModule({

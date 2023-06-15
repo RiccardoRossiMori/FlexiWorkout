@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {API_HTTP_CLIENT, ApiInterceptor} from "./api-interceptor.service";
+//import {API_HTTP_CLIENT, ApiInterceptor} from "./api-interceptor.service";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {AngularFireModule} from "@angular/fire/compat";
@@ -33,18 +33,18 @@ import {UserService} from "./pages/signin/services/user.service";
     {
       provide: RouteReuseStrategy, useClass: IonicRouteStrategy
     },
-    {
-      provide: API_HTTP_CLIENT,
-      useFactory: (http: HttpClient) => {
-        return new ApiInterceptor(http);
-      },
-      deps: [HttpClient]
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true
-    }
+    // {
+    //   provide: API_HTTP_CLIENT,
+    //   useFactory: (http: HttpClient) => {
+    //     return new ApiInterceptor(http);
+    //   },
+    //  deps: [HttpClient]
+   // // },
+   //  {
+   //    provide: HTTP_INTERCEPTORS,
+   //    useClass: ApiInterceptor,
+   //    multi: true
+   //  }
   ],
   bootstrap: [AppComponent],
 })

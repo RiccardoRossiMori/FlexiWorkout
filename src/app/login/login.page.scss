@@ -4,6 +4,16 @@ $white: #fff;
 $gray: #bdb8b8;
 $lime: #03f40f;
 
+.ui-container{
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .login-box {
   background: $a;
   border-radius: 10px;

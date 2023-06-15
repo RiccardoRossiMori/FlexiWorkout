@@ -1,30 +1,29 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui';
-import {AngularFireAuth} from '@angular/fire/compat/auth';
-import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements AfterViewInit{
+export class LoginPage implements AfterViewInit, OnDestroy {
   @ViewChild('firebaseuiAuthContainer', { static: false }) firebaseuiAuthContainer!: ElementRef;
 
   form: FormGroup;
+  uiConfig: firebaseui.auth.Config;
+  ui: firebaseui.auth.AuthUI | null = null;
 
   constructor(private afAuth: AngularFireAuth) {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
-  }
 
-  ngAfterViewInit() {
-    const uiConfig: firebaseui.auth.Config = {
-      signInSuccessUrl: '/home',
+    this.uiConfig = {
+      signInSuccessUrl: 'home',
       signInOptions: [
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
         firebase.auth.GoogleAuthProvider.PROVIDER_ID
@@ -33,7 +32,8 @@ export class LoginPage implements AfterViewInit{
         signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
           // L'utente ha effettuato l'accesso con successo
           // Puoi eseguire le operazioni necessarie qui
-          return false; // Blocca il reindirizzamento automatico
+          console.log("get rotaded mf!");
+          return true; // Blocca il reindirizzamento automatico
         },
         uiShown: () => {
           // FirebaseUI è stato visualizzato
@@ -41,33 +41,26 @@ export class LoginPage implements AfterViewInit{
         }
       }
     };
-
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    ui.start(this.firebaseuiAuthContainer.nativeElement, uiConfig);
   }
 
+  ngAfterViewInit() {
+    if (!this.ui) {
+      this.ui = new firebaseui.auth.AuthUI(firebase.auth());
+      this.ui.start(this.firebaseuiAuthContainer.nativeElement, this.uiConfig);
+    }
+  }
 
-
+  ngOnDestroy() {
+    if (this.ui) {
+      this.ui.delete();
+      this.ui = null;
+    }
+  }
 
   login() {
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-    const uiConfig = {
-      callbacks: {
-        signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
-          // L'utente ha effettuato l'accesso con successo
-          // Puoi eseguire le operazioni necessarie qui
-          return false; // Blocca il reindirizzamento automatico
-        },
-        uiShown: () => {
-          // FirebaseUI è stato visualizzato
-          // Puoi eseguire le operazioni necessarie qui
-        }
-      },
-      // Altre opzioni di configurazione di FirebaseUI
-    };
-
-    ui.start('#firebaseui-auth-container', uiConfig);
+    if (!this.ui) {
+      this.ui = new firebaseui.auth.AuthUI(firebase.auth());
+      this.ui.start('#firebaseui-auth-container', this.uiConfig);
+    }
   }
-
 }

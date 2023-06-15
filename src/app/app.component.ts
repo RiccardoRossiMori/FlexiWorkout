@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
   user: firebase.User | null = null;
 
   constructor(private router: Router, private userService: UserService) {
-    // this.router.navigate(['/login']); // Reindirizzamento automatico alla pagina di login
   }
 
   ngOnInit() {
@@ -44,6 +43,7 @@ export class AppComponent implements OnInit {
         this.user = result.user;
         if (this.user!=null && "displayName" in this.user && this.user.displayName!=null) {
           this.userService.setUsername(this.user.displayName);
+          localStorage.setItem('username', this.user.displayName); // Salva il nome utente nel localStorage
         }
       })
       .catch((error) => {

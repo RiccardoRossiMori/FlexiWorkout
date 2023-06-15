@@ -8,7 +8,8 @@
   "files": [
     "src/main.ts",
     "src/polyfills.ts",
-    "src/environments/environment.default.ts"
+    "src/environments/environment.default.ts",
+    "src/app/pages/signin/services/user.service.ts"
   ],
   "include": [
     "src/**/*.d.ts"
