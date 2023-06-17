@@ -22,7 +22,12 @@ const routes: Routes = [
       },
       {
         path: 'compila-scheda',
-        loadChildren: () => import('./compila-scheda/compila-scheda.module').then( m => m.CompilaSchedaPageModule)
+        loadChildren: () => import('./compila-scheda/compila-scheda.module').then( m => m.CompilaSchedaPageModule),
+        data: { exercises: null } // Inizializza il parametro exercises con il valore desiderato o lascialo null per ora
+      },
+      {
+        path: 'scheda-attiva',
+        loadChildren: () => import('./scheda-attiva/scheda-attiva.module').then( m => m.SchedaAttivaPageModule)
       }
       //TODO: Aggiungi altre route per le diverse sezioni o pagine dell'applicazione
     ],
@@ -31,7 +36,8 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
-  }
+  },
+
 
 ];
 

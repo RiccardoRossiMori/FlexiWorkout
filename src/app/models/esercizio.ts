@@ -1,7 +1,12 @@
-import {EsercizioAPI} from "./esercizio-api";
+import {EsercizioInterface} from "./esercizioInterface";
 
-export class Esercizio {
-  exercise: EsercizioAPI = new EsercizioAPI();
+export class Esercizio implements EsercizioInterface{
+  difficulty: string='';
+  equipment: string='';
+  instructions: string='';
+  muscle: string='';
+  name: string='';
+  type: string='';
   serie: number=0;
   ripetizioni: number=0;
   timer: number=0; //tempo di riposo
@@ -11,15 +16,22 @@ export class Esercizio {
 
   // Aggiungi altre proprietà necessarie
 
-  constructor(ex: EsercizioAPI, se:number, rep:number, time:number, weight:number, tab:boolean, ttab:number) {
-    this.exercise=ex;
-    this.serie=se;
-    this.ripetizioni=rep;
-    this.timer=time;
-    this.peso=weight;
-    this.tabata=tab;
-    this.timerTabata=ttab;
+  constructor(ex: EsercizioInterface, se: number, rep: number, time: number, weight: number, tab: boolean, ttab: number) {
+    this.difficulty = ex.difficulty;
+    this.equipment = ex.equipment;
+    this.instructions = ex.instructions;
+    this.muscle = ex.muscle;
+    this.name = ex.name;
+    this.type = ex.type;
+    this.serie = se;
+    this.ripetizioni = rep;
+    this.timer = time;
+    this.peso = weight;
+    this.tabata = tab;
+    this.timerTabata = ttab;
   }
 
-}
 
+
+
+}

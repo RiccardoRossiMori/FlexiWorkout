@@ -1,4 +1,6 @@
-export class EsercizioAPI{
+import {EsercizioInterface} from "./esercizioInterface";
+
+export class EsercizioAPI implements EsercizioInterface{
   difficulty: string = '';
   instructions: string = '';
   muscle: string = '';

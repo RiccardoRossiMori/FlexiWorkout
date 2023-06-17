@@ -2,6 +2,7 @@ import {Component, NgIterable, ViewChild} from '@angular/core';
 import {IonSelect, IonTextarea} from '@ionic/angular';
 import {ApiService} from "../api.service";
 import {EsercizioAPI} from "../models/esercizio-api";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-genera-scheda',
@@ -17,16 +18,11 @@ export class GeneraSchedaPage {
   isChecked: boolean = false;
 
 
-  constructor( private api: ApiService) {
+  constructor( private api: ApiService,private router: Router) {
   }
 
   checkboxChanged() {
-    console.log("check chiamato e checked é "+ this.isChecked);
-    this.isChecked = this.eserciziAPI.some(esercizio => {
-      console.log("esercizio checkato? isChecked= "+esercizio.checked);
-      return esercizio.checked;
-    });
-    console.log("dopo check, il valore é "+this.isChecked);
+    this.isChecked = this.eserciziAPI.some(esercizio => esercizio.checked);
   }
 
   getAndPushApi() {
@@ -39,13 +35,19 @@ export class GeneraSchedaPage {
     str += muscolo ? "&muscle=" + muscolo : "";
     str += difficolta ? "&difficulty=" + difficolta : "";
 
-    console.log(str);
     this.eserciziAPI = this.api.getExercises(str);
-    console.log(this.eserciziAPI);
   }
 
   cambiaCheck(esercizio: EsercizioAPI) {
     esercizio.checked=!esercizio.checked;
     this.checkboxChanged();
+  }
+
+  compilaScheda() {
+    // Ottieni gli esercizi selezionati
+    const selectedExercises = this.eserciziAPI.filter(esercizio => esercizio.checked);
+    console.log(selectedExercises);
+    // Esegui il reindirizzamento alla pagina compila-scheda con gli esercizi selezionati come parametri
+    this.router.navigate(['compila-scheda'], { queryParams: { exercises: JSON.stringify(selectedExercises) } });
   }
 }

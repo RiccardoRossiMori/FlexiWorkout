@@ -1,0 +1,30 @@
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.button-container ion-button {
+  margin: auto;
+}
+
+.popover-content {
+  max-width: 300px; /* Imposta la larghezza massima del popover */
+  max-height: 300px; /* Imposta l'altezza massima del popover */
+  overflow-y: auto; /* Abilita lo scrolling verticale se il contenuto supera l'altezza massima */
+}
+
+.custom-text ion-input,
+.custom-text ion-checkbox {
+  --color: white; /* Colore del testo */
+  --ion-item-padding-start: 16px; /* Spaziatura sinistra del testo */
+}
+
+.custom-checkbox-label {
+  font-size: 16px; /* Dimensione del testo del checkbox */
+  font-weight: normal; /* Rimuovi il grassetto */
+  color: white; /* Colore del testo del checkbox */
+
+  margin-left: calc(1em); /* Distanzia dal margine sinistro */
+}

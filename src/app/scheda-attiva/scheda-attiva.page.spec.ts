@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CompilaSchedaPage } from './compila-scheda.page';
+import { SchedaAttivaPage } from './scheda-attiva.page';
 
-describe('CompilaSchedaPage', () => {
-  let component: CompilaSchedaPage;
-  let fixture: ComponentFixture<CompilaSchedaPage>;
+describe('SchedaAttivaPage', () => {
+  let component: SchedaAttivaPage;
+  let fixture: ComponentFixture<SchedaAttivaPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(CompilaSchedaPage);
+    fixture = TestBed.createComponent(SchedaAttivaPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

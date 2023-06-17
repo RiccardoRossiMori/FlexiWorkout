@@ -32,7 +32,6 @@ export class LoginPage implements AfterViewInit, OnDestroy {
         signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
           // L'utente ha effettuato l'accesso con successo
           // Puoi eseguire le operazioni necessarie qui
-          console.log("get rotaded mf!");
           return true; // Blocca il reindirizzamento automatico
         },
         uiShown: () => {

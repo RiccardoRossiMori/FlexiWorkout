@@ -3,11 +3,46 @@
     <ion-title>compila-scheda</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">compila-scheda</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-card *ngFor="let esercizio of scheda.esercizi; let i = index">
+    <ion-card-header>
+      <ion-card-title>{{ esercizio.name }}</ion-card-title>
+      <ion-card-subtitle class="muscolo">{{ esercizio.muscle }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list class="custom-text">
+        <ion-item>
+          <ion-input id="Serie" label="Serie" type="number" placeholder="0" [max]="l.maxSerie"
+                     [(ngModel)]="esercizio.serie"
+                     (ionBlur)="limitValue($event.target, l.maxSerie, i)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input id="Ripetizioni" label="Ripetizioni" type="number" placeholder="0" [max]="l.maxRep"
+                     [(ngModel)]="esercizio.ripetizioni"
+                     (ionBlur)="limitValue($event.target, l.maxRep, i)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Timer" type="number" placeholder="0 Secondi" [max]="l.maxTempo"
+                     (ionBlur)="limitValue($event.target, l.maxTempo, i)"></ion-input>
+        </ion-item>
+        <ion-checkbox color="warning" (ionChange)="selected(i)" id="Tabata" class="custom-checkbox"
+                      style="margin-top: 16px; margin-bottom: 16px">
+          <ion-label class="custom-checkbox-label">Tabata</ion-label>
+        </ion-checkbox>
+        <ion-item *ngIf="esercizioTabata[i]">
+          <ion-input label="Timer Tabata" type="number" placeholder="0 Secondi (Work)" [max]="l.maxTempo"
+                     (ionBlur)="limitValue($event.target, l.maxTempo, i)"></ion-input>
+        </ion-item>
+      </ion-list>
+      <div class="istruzioni">{{ esercizio.instructions }}</div>
+      <br>
+      <div class="difficoltà">{{ esercizio.difficulty }}</div>
+      <div class="equipaggiamento">{{ esercizio.equipment }}</div>
+      <div class="tipo">{{ esercizio.type }}</div>
+    </ion-card-content>
+  </ion-card>
+  <div class="button-container ion-color-danger">
+    <ion-button class="ion-text-center" [disabled]="isButtonDisabled"> Completato</ion-button>
+    <!--Attivo quando tutti i campi serie e ripetizioni sono stati riempiti.-->
+  </div>
 </ion-content>

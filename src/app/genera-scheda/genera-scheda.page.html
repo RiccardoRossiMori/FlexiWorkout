@@ -62,7 +62,7 @@
   <br>
   <div class="button-container ion-color-danger">
     <ion-button (click)="getAndPushApi()">Cerca Esercizi</ion-button>
-    <ion-button [disabled]="!isChecked" class="ion-text-end">Compila Scheda</ion-button>
+    <ion-button [disabled]="!isChecked" class="ion-text-end" (click)="compilaScheda()">Compila Scheda</ion-button>
   </div>
   <ion-card *ngFor="let esercizio of eserciziAPI">
     <ion-card-header>
