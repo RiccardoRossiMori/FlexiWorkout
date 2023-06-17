@@ -6,8 +6,6 @@ import {CompilaSchedaPage, TabataDescriptionPopoverComponent} from './compila-sc
 import {IonicModule} from '@ionic/angular';
 
 import {CompilaSchedaPageRoutingModule} from './compila-scheda-routing.module';
-import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 
 
 @NgModule({
@@ -15,8 +13,6 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
     CommonModule,
     FormsModule,
     IonicModule,
-    AngularFirestoreModule,
-    AngularFireAuthModule,
     CompilaSchedaPageRoutingModule
   ],
   declarations: [CompilaSchedaPage, TabataDescriptionPopoverComponent],

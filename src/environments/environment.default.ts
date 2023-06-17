@@ -1,3 +1,5 @@
+import {getFirestore} from "@angular/fire/firestore";
+
 export const defaultEnvironment = {
   firebaseConfig: {
     apiKey: "AIzaSyClH2sZTY1ZOmXcgCK67fMfBwo7KOMEahs",

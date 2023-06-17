@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {UserService} from "./pages/signin/services/user.service";
+import {MenuController} from "@ionic/angular";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import {UserService} from "./pages/signin/services/user.service";
 export class AppComponent implements OnInit {
   user: firebase.User | null = null;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService, private menuController: MenuController) {
   }
 
   ngOnInit() {
@@ -41,9 +42,11 @@ export class AppComponent implements OnInit {
       .then((result) => {
         // L'accesso è avvenuto con successo
         this.user = result.user;
-        if (this.user!=null && "displayName" in this.user && this.user.displayName!=null) {
+        if (this.user != null && "displayName" in this.user && this.user.displayName != null) {
           this.userService.setUsername(this.user.displayName);
           localStorage.setItem('username', this.user.displayName); // Salva il nome utente nel localStorage
+          this.router.navigate(['/home']);
+          this.closeMenu();
         }
       })
       .catch((error) => {
@@ -63,5 +66,9 @@ export class AppComponent implements OnInit {
         // Si è verificato un errore durante il logout
         console.log(error);
       });
+  }
+
+  async closeMenu() {
+    await this.menuController.close();
   }
 }

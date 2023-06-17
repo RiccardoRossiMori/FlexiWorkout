@@ -4,8 +4,10 @@ import {PopoverController} from '@ionic/angular';
 import {EsercizioAPI} from '../models/esercizio-api';
 import {Esercizio} from '../models/esercizio';
 import {Scheda} from '../models/scheda';
-import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import { setDoc, doc } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-compila-scheda',
@@ -19,7 +21,7 @@ export class CompilaSchedaPage implements OnInit {
   isButtonDisabled: boolean = false;
   scheda: Scheda = new Scheda(); // Inizializza la scheda vuota
   esercizioTabata: boolean[] = [];
-  private user: firebase.User;
+  private user?: firebase.User;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +35,7 @@ export class CompilaSchedaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.afAuth.authState.subscribe(user => {
+    this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
       }
@@ -81,12 +83,39 @@ export class CompilaSchedaPage implements OnInit {
     this.esercizioTabata[i] = !this.esercizioTabata[i];
   }
 
-  saveSchedule() {
-    this.afStore.collection('').add(this.scheda).then(() => {
-      this.router.navigate(['/home']);
-    });
-  }
+  salvaScheda() {
+    const schedule = JSON.stringify(this.scheda);
+// Recupera l'utente loggato
+    const user = this.user;
+    if (!user) {
+      console.error('Utente non autenticato');
+      return;
+    }
 
+    // Ottieni l'email dell'utente loggato
+    const userEmail = user.email;
+
+    // Crea una stringa con la data e l'ora corrente
+    const currentDateTime = new Date().toLocaleString();
+
+    // Rimuovi eventuali caratteri non validi nel nome del documento
+    const sanitizedDateTime = currentDateTime.replace(/[^\w\s]/gi, '');
+
+    // Crea il nome del documento utilizzando l'email e la data/ora corrente
+    const documentName = `${userEmail}_${sanitizedDateTime}`;
+
+    // Crea un riferimento al documento utilizzando il nome casuale e la data/ora corrente
+    const docRef = this.afStore.collection('scheda').doc(documentName);
+
+    docRef.set(JSON.parse(schedule))
+      .then(() => {
+        console.log('Documento salvato correttamente!');
+        this.router.navigate(['/home']);
+      })
+      .catch((error) => {
+        console.error('Errore durante il salvataggio del documento:', error);
+      });
+  }
 }
 
 @Component({
@@ -103,7 +132,8 @@ export class CompilaSchedaPage implements OnInit {
     </ion-popover>
   `,
 })
-export class TabataDescriptionPopoverComponent {}
+export class TabataDescriptionPopoverComponent {
+}
 
 export class LimitCard {
   maxTempo: number = 600;
@@ -115,3 +145,4 @@ export class DefaultCard {
   defaultSerie: number = 4;
   defaultRep: number = 12;
 }
+

@@ -28,6 +28,10 @@ const routes: Routes = [
       {
         path: 'scheda-attiva',
         loadChildren: () => import('./scheda-attiva/scheda-attiva.module').then( m => m.SchedaAttivaPageModule)
+      },
+      {
+        path: 'lista-schede',
+        loadChildren: () => import('./lista-schede/lista-schede.module').then( m => m.ListaSchedePageModule)
       }
       //TODO: Aggiungi altre route per le diverse sezioni o pagine dell'applicazione
     ],
@@ -36,7 +40,7 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
-  },
+  }
 
 
 ];

@@ -42,7 +42,6 @@
     </ion-card-content>
   </ion-card>
   <div class="button-container ion-color-danger">
-    <ion-button class="ion-text-center" [disabled]="isButtonDisabled"> Completato</ion-button>
-    <!--Attivo quando tutti i campi serie e ripetizioni sono stati riempiti.-->
+    <ion-button class="ion-text-center" [disabled]="isButtonDisabled" (click)="salvaScheda()"> Completato</ion-button>
   </div>
 </ion-content>

@@ -1,19 +1,19 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {AppRoutingModule} from './app-routing.module';
+
 
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from './app-routing.module';
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-//import {API_HTTP_CLIENT, ApiInterceptor} from "./api-interceptor.service";
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
-import {CommonModule} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
 import {AngularFireModule} from "@angular/fire/compat";
-import { environment } from '../environments/environment';
+import {environment} from '../environments/environment';
 import {UserService} from "./pages/signin/services/user.service";
 
 
@@ -39,12 +39,12 @@ import {UserService} from "./pages/signin/services/user.service";
     //     return new ApiInterceptor(http);
     //   },
     //  deps: [HttpClient]
-   // // },
-   //  {
-   //    provide: HTTP_INTERCEPTORS,
-   //    useClass: ApiInterceptor,
-   //    multi: true
-   //  }
+    // // },
+    //  {
+    //    provide: HTTP_INTERCEPTORS,
+    //    useClass: ApiInterceptor,
+    //    multi: true
+    //  }
   ],
   bootstrap: [AppComponent],
 })

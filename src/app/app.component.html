@@ -1,13 +1,18 @@
 <ion-router-outlet></ion-router-outlet>
-<ion-menu contentId="main-content">
+<ion-menu contentId="main-content" side="start" maxEdgeStart="50%">
   <ion-header>
     <ion-toolbar>
       <ion-title>Menu Content</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <ion-button routerLink="genera-scheda" color="tertiary" size="small">Genera schede d'allenamento!</ion-button>
+    <ion-button routerLink="genera-scheda" color="tertiary" size="small" (click)="closeMenu()">Genera schede d'allenamento.</ion-button>
+    <ion-button routerLink="lista-schede" color="tertiary" size="small" (click)="closeMenu()">Seleziona la scheda d'allenamento.
+    </ion-button>
+    <ion-button routerLink="scheda-attiva" color="tertiary" size="small" (click)="closeMenu()">Visualizza la tua scheda attiva.</ion-button>
   </ion-content>
+
+
   <ion-content>
 
     <!-- Stato di accesso -->
@@ -15,7 +20,7 @@
     <ion-label id="sign-in-status" *ngIf="!user">Signed out</ion-label>
     <br>
     <!-- Pulsante di accesso -->
-    <ion-button id="sign-in" *ngIf="user" (click)="signOut()">Sign out</ion-button>
+    <ion-button routerLink="login" id="sign-in" *ngIf="user" (click)="signOut()">Sign out</ion-button>
     <ion-button id="sign-in" *ngIf="!user" (click)="signIn()">Sign in</ion-button>
     <br>
     <!-- Dettagli dell'account -->
