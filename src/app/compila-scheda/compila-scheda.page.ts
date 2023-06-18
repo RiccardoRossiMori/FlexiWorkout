@@ -38,9 +38,10 @@ export class CompilaSchedaPage implements OnInit {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
+        this.scheda.userId=this.user.uid;
       }
     });
-    console.log(this.route.snapshot.data['exercises']);
+    console.log(this.route.snapshot.data['exercises'] + 'route.snapshot.data');
     this.route.queryParams.subscribe((params) => {
       this.exercises = JSON.parse(params['exercises']);
       this.exercises.forEach((exercise: EsercizioAPI) => {

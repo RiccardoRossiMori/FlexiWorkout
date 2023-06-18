@@ -20,25 +20,40 @@ export class ListaSchedePage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
     this.caricaSchedeAllenamento();
   }
 
   caricaSchedeAllenamento() {
-    this.afDatabase.collection<Scheda>('scheda').get().toPromise().then((snapshot) => {
-      if (snapshot) {
-        this.schedeAllenamento = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data()
-          };
-        });
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        const userId = user.uid;
+        this.afDatabase
+          .collection<Scheda>('scheda', (ref) => ref.where('userId', '==', userId))
+          .get()
+          .toPromise()
+          .then((snapshot) => {
+            if (snapshot) {
+              this.schedeAllenamento = snapshot.docs.map((doc) => {
+                return {
+                  id: doc.id,
+                  ...doc.data()
+                };
+              });
 
-        this.schedeDocumenti = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            payload: doc
-          };
-        });
+              this.schedeDocumenti = snapshot.docs.map((doc) => {
+                return {
+                  id: doc.id,
+                  payload: doc
+                };
+              });
+            }
+          })
+          .catch((error) => {
+            console.error('Errore durante il recupero delle schede:', error);
+          });
       }
     });
   }
