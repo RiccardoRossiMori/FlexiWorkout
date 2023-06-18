@@ -3,6 +3,8 @@ import {NavController} from '@ionic/angular';
 import {Scheda} from '../models/scheda';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, QueryDocumentSnapshot} from '@angular/fire/compat/firestore';
+import {Router} from "@angular/router";
+import {SchedaDocumenti} from "../models/scheda-documenti";
 
 @Component({
   selector: 'app-lista-schede',
@@ -15,7 +17,7 @@ export class ListaSchedePage implements OnInit {
   schedaSelezionata: Scheda = new Scheda();
   private documentId: string = '';
 
-  constructor(private navCtrl: NavController, private afAuth: AngularFireAuth, private afDatabase: AngularFirestore) {
+  constructor(private navCtrl: NavController, private afAuth: AngularFireAuth, private afDatabase: AngularFirestore, private router: Router) {
     this.schedeDocumenti = [];
   }
 
@@ -78,6 +80,7 @@ export class ListaSchedePage implements OnInit {
       .catch((error) => {
         console.error('Errore durante l\'aggiornamento dello stato scheda attiva:', error);
       });
+    this.router.navigate(['scheda-attiva']); //cambiare l'impostazione e passare direttamente la scheda attiva?
   }
 
   selezionaScheda(scheda: Scheda, i: number) {
@@ -89,7 +92,4 @@ export class ListaSchedePage implements OnInit {
 
 }
 
-interface SchedaDocumenti {
-  id: string;
-  payload: QueryDocumentSnapshot<Scheda>;
-}
+

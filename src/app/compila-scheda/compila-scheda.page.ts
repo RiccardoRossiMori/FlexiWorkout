@@ -6,15 +6,16 @@ import {Esercizio} from '../models/esercizio';
 import {Scheda} from '../models/scheda';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
-import { setDoc, doc } from 'firebase/firestore';
 import firebase from 'firebase/compat/app';
+import {DefaultCard, LimitCard} from "../models/limiti";
+import {ProprietaCompilaSchedaPage} from "../scheda-attiva/scheda-attiva.page";
 
 @Component({
   selector: 'app-compila-scheda',
   templateUrl: './compila-scheda.page.html',
   styleUrls: ['./compila-scheda.page.scss'],
 })
-export class CompilaSchedaPage implements OnInit {
+export class CompilaSchedaPage implements OnInit, ProprietaCompilaSchedaPage {
   exercises: any;
   l: LimitCard;
   d: DefaultCard;
@@ -24,21 +25,21 @@ export class CompilaSchedaPage implements OnInit {
   private user?: firebase.User;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+    public route: ActivatedRoute,
+    public router: Router,
     private popoverController: PopoverController,
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore
   ) {
     this.d = new DefaultCard();
-    this.l = new LimitCard();
+    this.l = new LimitCard(this);
   }
 
   ngOnInit() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
-        this.scheda.userId=this.user.uid;
+        this.scheda.userId = this.user.uid;
       }
     });
     console.log(this.route.snapshot.data['exercises'] + 'route.snapshot.data');
@@ -49,24 +50,13 @@ export class CompilaSchedaPage implements OnInit {
         this.scheda.esercizi.push(esercizio); // Aggiunge l'esercizio alla scheda
       });
     });
+    for (let i = 0; i < this.scheda.esercizi.length; i++) {
+      this.esercizioTabata[i] = false;
+    }
   }
 
   limitValue(target: any, max: number, index: number) {
-    const value = parseInt(target.value, 10);
-    if (value > max) {
-      target.value = max.toString();
-    }
-    if (target.id === 'Serie') this.scheda.esercizi[index].serie = value;
-    else if (target.id === 'Ripetizioni')
-      this.scheda.esercizi[index].ripetizioni = value;
-    this.isButtonDisabled =
-      this.scheda.esercizi.some(
-        (esercizio: Esercizio) => esercizio.serie <= 0 || isNaN(esercizio.serie)
-      ) ||
-      this.scheda.esercizi.some(
-        (esercizio: Esercizio) =>
-          esercizio.ripetizioni <= 0 || isNaN(esercizio.ripetizioni)
-      );
+    this.scheda = this.l.limitValue(target, max, index, this.scheda);
   }
 
   async showTabataDescription(event: MouseEvent) {
@@ -85,6 +75,10 @@ export class CompilaSchedaPage implements OnInit {
   }
 
   salvaScheda() {
+    for (let i = 0; i < this.scheda.esercizi.length; i++)
+      if (this.esercizioTabata[i])
+        this.scheda.esercizi[i].tabata = true;
+
     const schedule = JSON.stringify(this.scheda);
 // Recupera l'utente loggato
     const user = this.user;
@@ -105,7 +99,7 @@ export class CompilaSchedaPage implements OnInit {
     // Crea il nome del documento utilizzando l'email e la data/ora corrente
     const documentName = `${userEmail}_${sanitizedDateTime}`;
 
-    // Crea un riferimento al documento utilizzando il nome casuale e la data/ora corrente
+    // Crea un riferimento al documento utilizzando l'email e la data/ora corrente
     const docRef = this.afStore.collection('scheda').doc(documentName);
 
     docRef.set(JSON.parse(schedule))
@@ -135,15 +129,3 @@ export class CompilaSchedaPage implements OnInit {
 })
 export class TabataDescriptionPopoverComponent {
 }
-
-export class LimitCard {
-  maxTempo: number = 600;
-  maxSerie: number = 50;
-  maxRep: number = 300;
-}
-
-export class DefaultCard {
-  defaultSerie: number = 4;
-  defaultRep: number = 12;
-}
-

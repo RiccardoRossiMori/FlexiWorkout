@@ -4,20 +4,48 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">scheda-attiva</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-popover trigger="Tabata" triggerAction="hover">
-    <ng-template>
-      <ion-content class="ion-padding">
-        Tabata è un tipo di allenamento ad alta intensità che prevede brevi periodi di esercizio intenso seguiti da
-        brevi periodi di riposo. Solitamente, un intervallo di Tabata consiste in 20 secondi di esercizio ad alta
-        intensità seguiti da 10 secondi di riposo, per un totale di 8 cicli. Questo tipo di allenamento è efficace per
-        migliorare la resistenza cardiovascolare e bruciare calorie.
-      </ion-content>
-    </ng-template>
-  </ion-popover>
+<ion-content>
+  <ion-card *ngFor="let esercizio of scheda?.esercizi; let i = index">
+    <ion-card-header>
+      <ion-card-title>{{ esercizio.name }}</ion-card-title>
+      <ion-card-subtitle class="muscolo">{{ esercizio.muscle }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list class="custom-text">
+        <ion-item>
+          <ion-input id="Serie" label="Serie" type="number" placeholder="0" [max]="l.maxSerie"
+                     [(ngModel)]="esercizio.serie"
+                     (ionBlur)="limitValue($event.target, l.maxSerie, i)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input id="Ripetizioni" label="Ripetizioni" type="number" placeholder="0" [max]="l.maxRep"
+                     [(ngModel)]="esercizio.ripetizioni"
+                     (ionBlur)="limitValue($event.target, l.maxRep, i)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Timer" type="number" placeholder="0 Secondi" [max]="l.maxTempo"
+                     [(ngModel)]="esercizio.timer"
+                     (ionBlur)="limitValue($event.target, l.maxTempo, i)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="esercizioTabata[i]">
+          <ion-input label="Timer Tabata" type="number" placeholder="0 Secondi (Work)" [max]="l.maxTempo"
+                     [(ngModel)]="esercizio.timerTabata"
+                     (ionBlur)="limitValue($event.target, l.maxTempo, i)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Peso" type="number" placeholder="0 Kg" (ionBlur)="limitValue($event.target, 9999, i)"
+                     [(ngModel)]="esercizio.peso"></ion-input>
+        </ion-item>
+      </ion-list>
+      <div class="istruzioni">{{ esercizio.instructions }}</div>
+      <br>
+      <div class="difficoltà">{{ esercizio.difficulty }}</div>
+      <div class="equipaggiamento">{{ esercizio.equipment }}</div>
+      <div class="tipo">{{ esercizio.type }}</div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="button-container ion-color-danger">
+    <ion-button class="ion-text-center" (click)="aggiornaScheda()" routerLink="/home">Completato</ion-button>
+  </div>
 </ion-content>
