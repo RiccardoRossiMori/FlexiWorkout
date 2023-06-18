@@ -10,4 +10,33 @@
       <ion-title size="large">lista-schede</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let scheda of schedeAllenamento; let i = index">
+      <ion-grid>
+        <ion-row style="background: var(--ion-color-dark-contrast);" (click)="selezionaScheda(scheda, i)">
+          <ion-col>
+            <h3>Nome Scheda: {{ schedeDocumenti[i].id }}</h3>
+          </ion-col>
+          <ion-col>
+            <ion-radio-group [(ngModel)]="schedaSelezionata">
+              <ion-radio justify="space-between" [value]="scheda">
+                <span style="display: none">a</span>
+              </ion-radio>
+            </ion-radio-group>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div *ngFor="let esercizio of scheda.esercizi">
+              <div>{{esercizio.name}}</div>
+              <sub>{{esercizio.muscle}}</sub>
+              <br><br>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <ion-button class="ion-text-center" (click)="salvaSchedaAttiva()">Salva come scheda attiva.</ion-button>
 </ion-content>
