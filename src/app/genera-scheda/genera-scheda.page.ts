@@ -17,6 +17,7 @@ export class GeneraSchedaPage {
   eserciziAPI: any[]=[];
   isChecked: boolean = false;
 
+  //TODO fai in modo che, cambiando parametri di ricerca, non spariscano gli esercizi selezionati.
 
   constructor( private api: ApiService,private router: Router) {
   }
@@ -35,7 +36,7 @@ export class GeneraSchedaPage {
     str += muscolo ? "&muscle=" + muscolo : "";
     str += difficolta ? "&difficulty=" + difficolta : "";
 
-    this.eserciziAPI = this.api.getExercises(str);
+  //  this.eserciziAPI = this.api.getExercises(str);
   }
 
   cambiaCheck(esercizio: EsercizioAPI) {

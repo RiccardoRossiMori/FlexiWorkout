@@ -13,6 +13,7 @@ export class Esercizio implements EsercizioInterface {
   peso: number = 0; //peso utilizzato
   tabata: boolean = false; //se ha bisogno di un secondo timer per un tipo di esercizio tabata
   timerTabata: number = 0; //tempo di esercizio attivo
+  userId: string = '';
 
   constructor(ex: EsercizioInterface, se: number, rep: number, time: number, weight: number, tab: boolean, ttab: number) {
     this.difficulty = ex.difficulty;

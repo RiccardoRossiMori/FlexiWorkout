@@ -1,25 +1,24 @@
 <ion-header [translucent]="true" xmlns="http://www.w3.org/1999/html">
   <ion-toolbar>
-    <ion-title>Genera_scheda</ion-title>
+    <ion-title>Genera_esercizio</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Genera_scheda</ion-title>
+      <ion-title size="large">Genera_esercizio</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-list>
+  <ion-list class="ion-color-medium">
     <!--    i campi selezionati come default (vuoti) non devono essere presi dalla query, altrimenti da errore e non restituisce nulla-->
     <ion-item>
-      <ion-textarea label="Nome esercizio" placeholder="Squat" [clearOnEdit]="true"
+      <ion-textarea label="Nome esercizio" placeholder="Squat" [clearOnEdit]="true" (ionChange)="esercizioCompleto()"
                     #nomeEsercizioTextarea></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-select aria-label="Tipo-esercizio" interface="popover" placeholder="Seleziona tipologia"
+      <ion-select aria-label="Tipo-esercizio" interface="popover" placeholder="Seleziona tipologia" (ionChange)="esercizioCompleto()"
                   #tipoEsercizioSelect>
-        <ion-select-option value="">Default</ion-select-option>
         <ion-select-option value="cardio">Cardio</ion-select-option>
         <ion-select-option value="olympic_weightlifting">Olympic Weightlifting</ion-select-option>
         <ion-select-option value="plyometrics">Plyometrics</ion-select-option>
@@ -30,8 +29,7 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select aria-label="Muscolo" interface="popover" placeholder="Seleziona Muscolo" #muscoloSelect>
-        <ion-select-option value="">Default</ion-select-option>
+      <ion-select aria-label="Muscolo" interface="popover" placeholder="Seleziona Muscolo" (ionChange)="esercizioCompleto()" #muscoloSelect>
         <ion-select-option value="abdominals">Abdominals</ion-select-option>
         <ion-select-option value="abductors">Abductors</ion-select-option>
         <ion-select-option value="adductors">Adductors</ion-select-option>
@@ -52,35 +50,50 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select aria-label="Difficoltà" interface="popover" placeholder="Seleziona Difficoltà" #difficoltaSelect>
-        <ion-select-option value="">Default</ion-select-option>
+      <ion-select aria-label="Difficoltà" interface="popover" placeholder="Seleziona Difficoltà" (ionChange)="esercizioCompleto()" #difficoltaSelect>
         <ion-select-option value="beginner">Beginner</ion-select-option>
         <ion-select-option value="intermediate">Intermediate</ion-select-option>
         <ion-select-option value="expert">Expert</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-textarea label="Descrizione esercizio" labelPlacement="floating" [autoGrow]="true" (ionChange)="esercizioCompleto()" #descrizioneEsercizio></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-select aria-label="Equipaggiamento" interface="popover" placeholder="Seleziona Attrezzatura" (ionChange)="esercizioCompleto()" #attrezzaturaEsercizio>
+        <ion-select-option value="machine">Macchinario</ion-select-option>
+        <ion-select-option value="barbell">Bilanciere</ion-select-option>
+        <ion-select-option value="dumbbell">Manubri</ion-select-option>
+        <ion-select-option value="e-z_curl_bar">Bilanciere E-Z</ion-select-option>
+        <ion-select-option value="body_only">Corpo Libero</ion-select-option>
+        <ion-select-option value="cable">Cavi</ion-select-option>
+        <ion-select-option value="foam_roll">Rullo</ion-select-option>
+        <ion-select-option value="bands">Elastici</ion-select-option>
+        <ion-select-option value="kettlebells">Kettlebell</ion-select-option>
+        <ion-select-option value="none">Nulla</ion-select-option>
+        <ion-select-option value="other">Altro</ion-select-option>
+      </ion-select>
+    </ion-item>
   </ion-list>
   <br>
   <div class="button-container ion-color-danger">
-    <ion-button (click)="getAndPushApi()">Cerca Esercizi</ion-button>
-    <ion-button [disabled]="!isChecked" class="ion-text-end" (click)="compilaScheda()">Compila Scheda</ion-button>
+    <ion-button [disabled]="!isComplete" (click)="create()">Genera Esercizio</ion-button>
+    <ion-button [disabled]="!isChecked" class="ion-text-end" (click)="takeAndPush()">Invia</ion-button>
   </div>
-  <ion-card *ngFor="let esercizio of eserciziAPI">
+
+<!--  Le Card serviranno per visualizzare gli esercizi appena creati, prima di inviarli al db dopo il takeAndPush(). -->
+  <ion-card *ngFor="let esercizio of eserciziG">
     <ion-card-header>
       <ion-card-title>{{ esercizio.name }}</ion-card-title>
       <ion-card-subtitle class="muscolo">{{ esercizio.muscle }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-checkbox color="warning"  (ionChange)="cambiaCheck(esercizio)">Aggiungi alla scheda</ion-checkbox><br><br>
+      <ion-checkbox color="warning"  (ionChange)="cambiaCheck()">Aggiungi ai tuoi esercizi</ion-checkbox><br><br> <!--esercizio-->
       <div class="istruzioni">{{ esercizio.instructions }}</div><br>
       <div class="difficoltà">{{ esercizio.difficulty }}</div>
       <div class="equipaggiamento">{{ esercizio.equipment }}</div>
       <div class="tipo">{{ esercizio.type }}</div>
     </ion-card-content>
   </ion-card>
-
-
-  <!-- X-Api-Key: A0F5n9W16NwqpjnpV33SPA==y33iR3fpHu1TgPWm-->
-
 
 </ion-content>

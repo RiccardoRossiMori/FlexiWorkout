@@ -35,8 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   signIn() {
-    // Aggiungi qui la logica per l'accesso utilizzando Firebase Authentication
-    // Esempio:
+    // Logica per l'accesso utilizzando Firebase Authentication
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
       .then((result) => {

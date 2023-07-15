@@ -32,6 +32,10 @@ const routes: Routes = [
       {
         path: 'lista-schede',
         loadChildren: () => import('./lista-schede/lista-schede.module').then( m => m.ListaSchedePageModule)
+      },
+      {
+        path: 'genera-esercizio',
+        loadChildren: () => import('./genera-esercizio/genera-esercizio.module').then( m => m.GeneraEsercizioPageModule)
       }
       //TODO: Aggiungi altre route per le diverse sezioni o pagine dell'applicazione
     ],
