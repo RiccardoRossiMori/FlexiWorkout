@@ -33,23 +33,47 @@ export class ApiService implements OnInit {
 
   }
 
-  // getExercises(str: string): EsercizioAPI[] {//} Observable<any> { //TODO cambia implementazione per prendere gli esercizi dal db
-  //   const apiKey = 'A0F5n9W16NwqpjnpV33SPA==y33iR3fpHu1TgPWm';
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'x-api-key': apiKey,
-  //     'Access-Control-Allow-Origin': '*' // Aggiungi l'header Access-Control-Allow-Origin
-  //   });
-  //  /* // const headers = new HttpHeaders();//.set('X-Api-Key', apiKey);
-  //   // headers.append('Content-Type', 'application/json');
-  //   // headers.append('x-api-key', apiKey);
-  //   // headers.append('Access-Control-Allow-Origin', '*'); // Aggiungi l'header Access-Control-Allow-Origin
-  //
-  //
-  //   //const httpClient = this.http.getHttpClient();
-  //   //.console.log(new Map(headers));
-  //   //console.log(this.apiUrl + str + " url, header " + headers.valueOf().toString());
-  //   // return [
+  getExercises(str: string): Promise<EsercizioAPI[]> {
+    return this.afStore
+      .collection<EsercizioAPI>('esercizio')
+      .ref.where('userId', '==', this.userId) // Aggiungi eventuali filtri di ricerca necessari //TODO da modificare per effettuare ricerche
+      .get()
+      .then((snapshot) => {
+        const esercizi: EsercizioAPI[] = [];
+        console.log('ci sono');
+
+        snapshot.forEach((doc) => {
+          console.log('eccolo');
+          // Recupera i dati del documento e aggiungili all'array degli esercizi
+          const esercizio = doc.data() as EsercizioAPI;
+          console.log(esercizio);
+          esercizi.push(esercizio);
+        });
+
+        return esercizi;
+      })
+      .catch((error) => {
+        console.error('Errore durante il recupero degli esercizi:', error);
+        console.log('porco porco');
+        return []; // Restituisci un array vuoto in caso di errore
+      });
+  }
+   //  const apiKey = 'A0F5n9W16NwqpjnpV33SPA==y33iR3fpHu1TgPWm';
+   //  const headers = new HttpHeaders({
+   //    'Content-Type': 'application/json',
+   //    'x-api-key': apiKey,
+   //    'Access-Control-Allow-Origin': '*' // Aggiungi l'header Access-Control-Allow-Origin
+   //  });
+   // /* // const headers = new HttpHeaders();//.set('X-Api-Key', apiKey);
+   //  // headers.append('Content-Type', 'application/json');
+   //  // headers.append('x-api-key', apiKey);
+   //  // headers.append('Access-Control-Allow-Origin', '*'); // Aggiungi l'header Access-Control-Allow-Origin
+   //
+   //
+   //  //const httpClient = this.http.getHttpClient();
+   //  //.console.log(new Map(headers));
+   //  //console.log(this.apiUrl + str + " url, header " + headers.valueOf().toString());
+   //  // return [
   //   //   {
   //   //     "name": "Rickshaw Carry",
   //   //     "type": "strongman",
@@ -155,7 +179,7 @@ export class ApiService implements OnInit {
       const gEsercizio = JSON.stringify(esercizi[i]);
 
       // Crea un nome univoco per il documento
-      const documentName = `${this.user.email}_${new Date().getTime()}_${esercizi[i].name}`;
+      const documentName = `${this.user.email}_${esercizi[i].name}`;
 
       // Crea un riferimento al documento utilizzando il nome univoco
       const docRef = this.afStore.collection('esercizio').doc(documentName);

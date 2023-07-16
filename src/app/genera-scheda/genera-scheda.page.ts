@@ -26,7 +26,7 @@ export class GeneraSchedaPage {
     this.isChecked = this.eserciziAPI.some(esercizio => esercizio.checked);
   }
 
-  getAndPushApi() {
+  async getAndPushApi() {
     const nomeEsercizio = this.nomeEsercizioTextarea.value;
     const tipoEsercizio = this.tipoEsercizioSelect.value;
     const muscolo = this.muscoloSelect.value;
@@ -36,7 +36,7 @@ export class GeneraSchedaPage {
     str += muscolo ? "&muscle=" + muscolo : "";
     str += difficolta ? "&difficulty=" + difficolta : "";
 
-  //  this.eserciziAPI = this.api.getExercises(str);
+    this.eserciziAPI = await this.api.getExercises(str);
   }
 
   cambiaCheck(esercizio: EsercizioAPI) {

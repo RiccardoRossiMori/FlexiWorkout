@@ -78,17 +78,17 @@
   <br>
   <div class="button-container ion-color-danger">
     <ion-button [disabled]="!isComplete" (click)="create()">Genera Esercizio</ion-button>
-    <ion-button [disabled]="!isChecked" class="ion-text-end" (click)="takeAndPush()">Invia</ion-button>
+    <ion-button [disabled]="!enableSend" class="ion-text-end" (click)="takeAndPush()">Invia</ion-button>
   </div>
 
 <!--  Le Card serviranno per visualizzare gli esercizi appena creati, prima di inviarli al db dopo il takeAndPush(). -->
-  <ion-card *ngFor="let esercizio of eserciziG">
+  <ion-card *ngFor="let esercizio of eserciziG; let i = index;">
     <ion-card-header>
       <ion-card-title>{{ esercizio.name }}</ion-card-title>
       <ion-card-subtitle class="muscolo">{{ esercizio.muscle }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-checkbox color="warning"  (ionChange)="cambiaCheck()">Aggiungi ai tuoi esercizi</ion-checkbox><br><br> <!--esercizio-->
+      <ion-checkbox color="warning"  (ionChange)="cambiaCheck(i)">Aggiungi ai tuoi esercizi</ion-checkbox><br><br> <!--esercizio-->
       <div class="istruzioni">{{ esercizio.instructions }}</div><br>
       <div class="difficoltà">{{ esercizio.difficulty }}</div>
       <div class="equipaggiamento">{{ esercizio.equipment }}</div>

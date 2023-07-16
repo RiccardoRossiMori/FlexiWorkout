@@ -17,9 +17,12 @@ export class GeneraEsercizioPage implements OnInit {
   @ViewChild('difficoltaSelect', {static: false}) difficoltaSelect!: IonSelect;
   @ViewChild('descrizioneEsercizio', {static: false}) descrizioneEsercizio!: IonTextarea;
   @ViewChild('attrezzaturaEsercizio', {static: false}) attrezzaturaEsercizio!: IonSelect;
-  isChecked: boolean = false;
+  enableSend: boolean = false;
+  isChecked: boolean[] =[];
   eserciziG: EsercizioAPI[] = [];
+  index:number=0;
   count: number = 0;
+  countCheck: number = 0;
   isComplete: boolean = false;
 
   constructor(private api: ApiService) {
@@ -40,6 +43,8 @@ export class GeneraEsercizioPage implements OnInit {
     if (descrizione != null && nomeEsercizio != null) {
       this.eserciziG[this.count] = new EsercizioAPI(difficolta, descrizione, muscolo, nomeEsercizio, tipoEsercizio, attrezzatura);
       this.count++;
+      this.countCheck++;
+      this.index++;
     }
 
     // Resettare i valori dei campi
@@ -53,14 +58,20 @@ export class GeneraEsercizioPage implements OnInit {
   }
 
   takeAndPush() {
-    this.api.pushExercises(this.eserciziG);
-  }
+    const eserciziFiltrati: EsercizioAPI[] = [];
+    for (let i = 0; i < this.countCheck; i++) {
+      if (this.isChecked[i]) {
+        eserciziFiltrati.push(this.eserciziG[i]);
+      }
+    }
+
+    this.api.pushExercises(eserciziFiltrati);  }
 
 
-  cambiaCheck(/*esercizio: EsercizioAPI*/) {
-    //TODO sistema il bug: solo un numero dispari di esercizi può essere selezionato in questo modo.
-    //se almeno un esercizio é selezionato, allora:
-    this.isChecked = !this.isChecked;
+  cambiaCheck(index:number) {
+    this.isChecked[index]=!this.isChecked[index];
+    console.log("sono dentro ed il valore valutato é: " + this.isChecked.indexOf(true)!=null);
+    this.enableSend = this.isChecked.indexOf(true)!=-1;
   }
 
   esercizioCompleto() {
